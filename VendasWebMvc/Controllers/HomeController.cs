@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using VendasWebMvc.Models;
+using VendasWebMvc.Models.ViewModels;
 
 namespace VendasWebMvc.Controllers
 {
@@ -15,6 +16,8 @@ namespace VendasWebMvc.Controllers
 
         public IActionResult Index()
         {
+            ViewData["titulo"] = "Vendas WEB";
+
             return View();
         }
 

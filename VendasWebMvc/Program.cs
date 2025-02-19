@@ -1,15 +1,29 @@
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using VendasWebMvc.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+// ?? Criamos um alias para services e configuration
+var services = builder.Services;
+var configuration = builder.Configuration;
+
+services.AddDbContext<VendasWebMvcContext>(options =>
+    options.UseMySql(
+        configuration.GetConnectionString("VendasWebMvcContext"),
+        new MySqlServerVersion(new Version(8, 0, 39)),
+        builder => builder.MigrationsAssembly("VendasWebMvc"))
+    );
+
+// Adicionar serviços ao contêiner
+services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configuração do pipeline HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -17,7 +31,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(
