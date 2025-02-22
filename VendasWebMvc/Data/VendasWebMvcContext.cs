@@ -10,7 +10,9 @@ namespace VendasWebMvc.Data
         {
         }
 
-        // DbSet representando a tabela "Departamento" no banco de dados
+        // DbSet representando as tabelas no banco de dados
         public DbSet<Departamento> Departamento { get; set; } = default!;
+        public DbSet<Vendedor> Vendedor { get; set; } = default!;
+        public DbSet<RegistroVenda> RegistroVendas { get; set; } = default!;
     }
 }
