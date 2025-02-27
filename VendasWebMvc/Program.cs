@@ -4,10 +4,10 @@ using VendasWebMvc.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ?? Criamos um alias para services e configuration
 var services = builder.Services;
 var configuration = builder.Configuration;
 
+// Configuração do banco de dados
 services.AddDbContext<VendasWebMvcContext>(options =>
     options.UseMySql(
         configuration.GetConnectionString("VendasWebMvcContext"),
@@ -15,10 +15,30 @@ services.AddDbContext<VendasWebMvcContext>(options =>
         builder => builder.MigrationsAssembly("VendasWebMvc"))
     );
 
-// Adicionar serviços ao contêiner
+// Registrar o SeedingService no contêiner de injeção de dependência
+services.AddScoped<SeedingService>();
+
 services.AddControllersWithViews();
 
 var app = builder.Build();
+
+// Criar um escopo e executar o seeding ao iniciar a aplicação
+using (var scope = app.Services.CreateScope())
+{
+    var service = scope.ServiceProvider; 
+    try
+    {
+        Console.WriteLine("Obtendo SeedingService...");
+        var seedingService = service.GetRequiredService<SeedingService>();
+        seedingService.PopularBanco();
+        Console.WriteLine("SeedingService executado!");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Erro ao popular o banco: {ex.Message}");
+    }
+}
+
 
 // Configuração do pipeline HTTP
 if (!app.Environment.IsDevelopment())
