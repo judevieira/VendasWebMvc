@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using VendasWebMvc.Data;
+using VendasWebMvc.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +18,8 @@ services.AddDbContext<VendasWebMvcContext>(options =>
 
 // Registrar o SeedingService no contêiner de injeção de dependência
 services.AddScoped<SeedingService>();
+
+services.AddScoped<VendedorService>();
 
 services.AddControllersWithViews();
 

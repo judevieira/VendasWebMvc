@@ -1,0 +1,56 @@
+﻿@model IEnumerable<VendasWebMvc.Models.Vendedor>
+
+
+@{
+    ViewData["Title"] = "Vendedores";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table table-striped table-hover">
+    <thead> <!--cabeçalho-->
+        <tr>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.DataNascimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(Model => Model.Salario)
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(ModelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelItem => item.DataNascimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelItem => item.Salario)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Deletar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
