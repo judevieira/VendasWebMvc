@@ -35,5 +35,30 @@ namespace VendasWebMvc.Controllers
             _vendedorService.Insert(vendedor);
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult Delete(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var objeto = _vendedorService.EncontrePorId(id.Value); //value pq é opcional
+            if(objeto == null)
+            {
+                return NotFound();
+            }
+            
+            return View(objeto);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            _vendedorService.Remover(id);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }
