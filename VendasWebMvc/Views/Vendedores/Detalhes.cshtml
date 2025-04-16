@@ -1,0 +1,35 @@
+﻿@model VendasWebMvc.Models.Vendedor
+@{
+    ViewData["Title"] = "Detalhes";
+}
+
+<h1>Detalhes</h1>
+
+<div>
+    <h4>VENDEDOR</h4>
+    <hr />
+    <dl class="d1-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.Nome)</dt>
+        <dd>@Html.DisplayFor(model => model.Nome)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd>@Html.DisplayFor(model => model.Email)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.DataNascimento)</dt>
+        <dd>@Html.DisplayFor(model => model.DataNascimento)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Salario)</dt>
+        <dd>@Html.DisplayFor(model => model.Salario)</dd>
+
+        <dt>@Html.DisplayNameFor(model => model.Departamento)</dt>
+        <dd>@Html.DisplayFor(model => model.Departamento.Nome)</dd>
+
+    </dl>
+
+</div>
+<div>
+    <!--//asp-action indica para qual action (método) do controller-->
+    <a asp-action="Editar" asp-route-id="@Model.Id" class="btn btn-default">Editar</a>
+    <a asp-action="Index">Volte para a lista.</a>
+</div>
+
