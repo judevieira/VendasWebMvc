@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using VendasWebMvc.Models;
 using VendasWebMvc.Models.ViewModels;
 using VendasWebMvc.Services;
@@ -43,13 +44,13 @@ namespace VendasWebMvc.Controllers
         {
             if(id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new {mensagem = "Id não fornecido!"});
             }
 
             var objeto = _vendedorService.EncontrePorId(id.Value); //value pq é opcional
             if(objeto == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new {mensagem = "If não encontrado!"});
             }
             
             return View(objeto);
@@ -65,14 +66,15 @@ namespace VendasWebMvc.Controllers
 
         public IActionResult Detalhes(int? id)
         {
-            if(id == null){
-                return NotFound();
+            if(id == null)
+            {
+                return RedirectToAction(nameof(Error), new {mensagem = "Id não fornecido!"});
             }
 
             var objeto = _vendedorService.EncontrePorId(id.Value);
             if(objeto == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new {mensagem = "Id não encontrado!"});
             }
 
             return View(objeto);
@@ -82,14 +84,14 @@ namespace VendasWebMvc.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new {mensagem = "ID não fornecido!"});
             }
 
             var objeto = _vendedorService.EncontrePorId(id.Value);
 
             if (objeto == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new {mensagem = "ID não encontrado!" });
             }
 
             List<Departamento> departamentos = _departamentoService.listaDepartamentos();
@@ -103,7 +105,7 @@ namespace VendasWebMvc.Controllers
         {
             if (id != vendedor.Id)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { mensagem = "ID incompativel!" });
             }
 
             try
@@ -111,16 +113,22 @@ namespace VendasWebMvc.Controllers
                 _vendedorService.Editar(vendedor);
                 return RedirectToAction(nameof(Index));
             }
-            catch (NotFoundException)
+            catch (ApplicationException e)
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new {mensagem = e.Message});
             }
-            catch (DbConcurrencyException)
+         
+
+        }
+
+        public IActionResult Error(string mensagem)
+        {
+            var viewModel = new ErrorViewModel
             {
-                return BadRequest();
-            }
-
-
+                Mensagem = mensagem,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+            };
+            return View(viewModel);
         }
     }
 }

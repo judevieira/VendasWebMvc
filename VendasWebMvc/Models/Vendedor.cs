@@ -1,14 +1,30 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace VendasWebMvc.Models
 {
     public class Vendedor
     {
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "O {0} é obrigatório")]
         public String Nome{ get; set; }
+
+        [Required(ErrorMessage = "O {0} é obrigatório")]
+        [DataType(DataType.EmailAddress)]
         public String Email { get; set; }
+
+        [Required(ErrorMessage = "O {0} é obrigatório")]
+        [Display(Name = "Data de Nascimento")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataNascimento { get; set; }
+
+        [Required(ErrorMessage = "O {0} é obrigatório")]
+        [DisplayFormat(DataFormatString = "{0:F2}")]
         public Double Salario { get; set; }
+
+        [Required(ErrorMessage = "O {0} é obrigatório")]
         public Departamento Departamento { get; set; }
         public int DepartamentoId { get; set; }
         public ICollection<RegistroVenda> Vendas { get; set; } = new List<RegistroVenda>();

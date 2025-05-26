@@ -5,11 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - VendasWebMvc</title>
 
-    <!--  -->
     <!-- Bootswatch Theme (Flatly) -->
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/flatly/bootstrap.min.css">
-    <!-- Outros estilos do projeto -->
+
+    <!-- Estilos do projeto -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/VendasWebMvc.styles.css" asp-append-version="true" />
 </head>
@@ -41,6 +40,7 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -53,9 +53,21 @@
         </div>
     </footer>
 
-    <!-- Scripts (garanta que o Bootstrap e o jQuery são carregados corretamente) -->
+    <!-- Scripts principais: jQuery, validação e Bootstrap -->
+    <!-- jQuery (sem integrity para evitar bloqueios) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- jQuery Validation e Unobtrusive Validation -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@4.0.0/dist/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- Bootstrap Bundle (inclui Popper.js) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script do site -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Scripts adicionais de views -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

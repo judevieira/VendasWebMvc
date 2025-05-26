@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using System.Globalization;
 using VendasWebMvc.Data;
 using VendasWebMvc.Services;
 
@@ -16,6 +18,8 @@ services.AddDbContext<VendasWebMvcContext>(options =>
         builder => builder.MigrationsAssembly("VendasWebMvc"))
     );
 
+
+
 // Registrar o SeedingService no contêiner de injeção de dependência
 services.AddScoped<SeedingService>();
 
@@ -26,6 +30,17 @@ services.AddScoped<DepartamentoService>();
 services.AddControllersWithViews();
 
 var app = builder.Build();
+
+//formatacao
+var ptBr = new CultureInfo("pt-BR");
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(ptBr),
+    SupportedCultures = new List<CultureInfo> { ptBr },
+    SupportedUICultures = new List<CultureInfo> { ptBr }
+};
+
+app.UseRequestLocalization(localizationOptions);
 
 // Criar um escopo e executar o seeding ao iniciar a aplicação
 using (var scope = app.Services.CreateScope())
